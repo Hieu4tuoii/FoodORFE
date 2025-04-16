@@ -4,7 +4,7 @@ import { ChevronLeft, Copy, CheckCircle2 } from "lucide-react";
 import Navbar from "../components/Navbar";
 
 // API Constants
-const BASE_URL = "http://185.234.247.196:8082";
+const BASE_URL = "https://api.phimhdchill.com";
 const POLL_INTERVAL = 2000; // 2 seconds
 
 export default function QRPaymentPage() {

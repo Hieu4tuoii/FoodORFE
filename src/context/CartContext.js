@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react"
 
 // Base URL for API
-const BASE_URL = "http://185.234.247.196:8082"
+const BASE_URL = "https://api.phimhdchill.com"
 
 const CartContext = createContext()
 

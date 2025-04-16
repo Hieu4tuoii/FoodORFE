@@ -1,10 +1,9 @@
 "use client"
 
-import { QrCode } from "lucide-react"
 import { QRCodeCanvas } from "qrcode.react"
 import { useState, useEffect } from "react"
-const BASE_URL = "http://185.234.247.196:8082"
-const DOMAIN_URL = "https://food-orfe-r45934h34934h3943f.vercel.app"
+const BASE_URL = "https://api.phimhdchill.com"
+const DOMAIN_URL = "http://localhost:3000"
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("tables")

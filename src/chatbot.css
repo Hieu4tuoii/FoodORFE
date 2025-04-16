@@ -119,26 +119,21 @@
 .food-recommendations {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin-top: 8px;
-  margin-left: 10px;
-  max-width: 90%;
+  width: 100%;
+  max-width: 320px;
 }
 
 .food-recommendation-card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 12px;
   display: flex;
-  gap: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
-}
-
-.food-recommendation-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  margin-left: 36px;
+  overflow: hidden;
+  gap: 10px;
 }
 
 .food-info {
@@ -146,34 +141,33 @@
 }
 
 .food-info h4 {
-  margin: 0 0 5px 0;
+  margin: 0 0 4px 0;
   font-size: 16px;
   color: #333;
 }
 
 .food-price {
+  margin: 0 0 4px 0;
   font-weight: bold;
-  color: #f97316;
-  margin: 2px 0;
+  color: #e53935;
   font-size: 14px;
 }
 
 .food-description {
+  margin: 0;
   font-size: 12px;
   color: #666;
-  margin: 5px 0 0 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .food-image {
   width: 60px;
   height: 60px;
-  object-fit: cover;
   border-radius: 6px;
+  object-fit: cover;
 }
 
 /* Typing Indicator */
@@ -280,6 +274,34 @@
   to { transform: rotate(360deg); }
 }
 
+/* JSON Message Styles */
+.json-message-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.json-message-text {
+  margin-bottom: 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.json-message-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.json-message-image img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
   .chatbot-container {
@@ -318,5 +340,13 @@
 
   .send-button {
     font-size: 14px; /* Adjust button font size for mobile */
+  }
+
+  .food-recommendations {
+    max-width: 100%;
+  }
+  
+  .food-recommendation-card {
+    margin-left: 20px;
   }
 }

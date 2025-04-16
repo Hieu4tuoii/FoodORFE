@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 import CategoryTabs from "../components/CategoryTabs";
 import FoodCard from "../components/FoodCard";
 
-const BASE_URL = "http://185.234.247.196:8082";
+const BASE_URL = "https://api.phimhdchill.com";
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState("Tất cả");
@@ -18,7 +18,7 @@ export default function HomePage() {
   const [error, setError] = useState(null);
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [showSearchBar, setShowSearchBar] = useState(false); // State to toggle search bar visibility
+  const [showSearchBar, setShowSearchBar] = useState(false); // State to toggle search bar visibilityyyyyyyy
 
   // Lấy danh sách danh mục
   useEffect(() => {

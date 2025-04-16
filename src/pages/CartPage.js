@@ -7,7 +7,7 @@ import { useCart } from "../context/CartContext"
 import Navbar from "../components/Navbar"
 
 // Base URL for API
-const BASE_URL = "http://185.234.247.196:8082"
+const BASE_URL = "https://api.phimhdchill.com"
 
 export default function CartPage() {
   const navigate = useNavigate()

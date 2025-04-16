@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoPhim - Chuyện Nhà Bánh Xếp (Enhanced)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Định nghĩa Keyframes cho Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Lớp tiện ích Animation (có thể cấu hình trong tailwind.config.js) */
+        .animate-fade-in-up {
+            opacity: 0; /* Bắt đầu ẩn */
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .animate-fade-in-left {
+            opacity: 0;
+            animation: fadeInLeft 0.8s 0.2s ease-out forwards; /* Delay nhẹ */
+        }
+        .animate-fade-in-right {
+            opacity: 0;
+            animation: fadeInRight 0.8s 0.4s ease-out forwards; /* Delay nhẹ hơn */
+        }
+        /* Custom animation delay class */
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-300 { animation-delay: 0.3s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-500 { animation-delay: 0.5s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+        .animation-delay-700 { animation-delay: 0.7s; }
+
+
+        /* Thêm overlay gradient cho hero */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.4) 50%, rgba(17, 24, 39, 0.1) 100%);
+            /* background: rgba(17, 24, 39, 0.6); */
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Đảm bảo header có z-index cao hơn overlay */
+        header {
+             z-index: 50;
+        }
+
+        /* Gradient mờ dần ở cuối danh sách thẻ */
+         .category-grid-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px; /* Điều chỉnh chiều cao */
+            background: linear-gradient(to top, #111827, transparent);
+            pointer-events: none;
+            z-index: 5; /* Đảm bảo nó ở trên các thẻ */
+        }
+
+         /* Kiểu cho nút xem thêm chủ đề */
+         .more-topics-btn {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             text-align: center;
+         }
+    </style>
+</head>
+<body class="font-sans text-white bg-gray-900">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 transition-all duration-300 bg-gray-900 bg-opacity-70 backdrop-blur-md">
+        <div class="container flex items-center justify-between h-16 px-4 mx-auto sm:px-6 lg:px-8">
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <button class="text-gray-300 transition-colors hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <a href="#" class="flex items-center space-x-2 group">
+                     <!-- Placeholder Logo -->
+                     <svg class="w-8 h-8 text-yellow-400 transition-colors group-hover:text-yellow-300" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm3.707 8.707-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 1 1 1.414-1.414L11 12.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" clip-rule="evenodd"/></svg>
+                     <span class="text-xl font-bold transition-colors group-hover:text-gray-200">RoPhim</span>
+                     <span class="hidden text-xs text-gray-400 sm:inline">Phim hay có rổ</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <button class="relative text-gray-300 transition-colors hover:text-white">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <span class="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border-2 border-gray-900">1</span>
+                </button>
+                <button class="text-gray-300 transition-colors hover:text-white">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main> {/* No padding top needed if hero is full screen */}
+
+        <!-- Hero Section -->
+        <section
+            class="relative flex items-center min-h-screen bg-center bg-no-repeat bg-cover hero-section"
+            style="background-image: url('https://xem14.net/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw780%2F1jJBdjGMwoosm7MqgHVT4e5KNR5.jpg&w=1920&q=75');" 
+        >
+            <div class="container flex flex-col items-center justify-between w-full px-4 py-16 mx-auto hero-content sm:px-6 lg:px-8 md:py-24 lg:py-32 lg:flex-row">
+
+                <!-- Left Content -->
+                <div class="w-full mb-12 text-center lg:w-1/2 xl:w-2/5 lg:text-left lg:mb-0">
+                    <h1 class="mb-4 text-4xl font-extrabold leading-tight uppercase sm:text-5xl lg:text-6xl drop-shadow-lg animate-fade-in-left">
+                        Chuyện Nhà Bánh Xếp
+                    </h1>
+
+                    <div class="flex flex-wrap items-center justify-center gap-2 mb-4 lg:justify-start animate-fade-in-left animation-delay-200">
+                        <span class="bg-yellow-500 text-gray-900 px-2.5 py-1 rounded text-xs sm:text-sm font-semibold">IMDb 7.9</span>
+                        <span class="bg-gray-700 bg-opacity-70 px-2.5 py-1 rounded text-xs sm:text-sm">T13</span>
+                        <span class="bg-gray-700 bg-opacity-70 px-2.5 py-1 rounded text-xs sm:text-sm">2024</span>
+                        <span class="bg-gray-700 bg-opacity-70 px-2.5 py-1 rounded text-xs sm:text-sm">1h 47m</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-center gap-2 mb-6 text-xs text-gray-200 lg:justify-start sm:text-sm animate-fade-in-left animation-delay-300">
+                        <span class="px-3 py-1 border border-gray-500 rounded-full">Chính Kịch</span>
+                        <span class="px-3 py-1 border border-gray-500 rounded-full">Gia Đình</span>
+                        <span class="px-3 py-1 border border-gray-500 rounded-full">Đời Thường</span>
+                        <span class="px-3 py-1 border border-gray-500 rounded-full">Hài</span>
+                    </div>
+
+                    <p class="max-w-xl mx-auto mb-8 leading-relaxed text-gray-300 lg:mx-0 animate-fade-in-left animation-delay-400">
+                        Nhà ông Ham Mu Ok có 30 năm truyền thống làm bánh xếp nhưng con trai độc đinh lại muốn tu tập. Khi đang giảng co bể tắc thì bỗng đứa cháu đích tôn từ trên trời rơi xuống khiến ông vô cùng vui mừng.
+                    </p>
+
+                    <div class="flex items-center justify-center space-x-3 lg:justify-start sm:space-x-4 animate-fade-in-left animation-delay-500">
+                        <button id="play-button" class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-full flex items-center space-x-2 transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                            <span class="text-sm sm:text-base">Xem ngay</span>
+                        </button>
+                         <button id="like-button" class="bg-gray-700 bg-opacity-50 hover:bg-opacity-80 text-white p-2.5 sm:p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                        </button>
+                         <button id="info-button" class="bg-gray-700 bg-opacity-50 hover:bg-opacity-80 text-white p-2.5 sm:p-3 rounded-full transition duration-300 ease-in-out transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Content (Thumbnails) -->
+                <div class="absolute z-10 hidden w-auto lg:block bottom-8 right-4 sm:right-6 lg:right-8">
+                    <div class="flex space-x-2">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,drama&w=200&h=120&1" alt="Thumbnail 1" class="object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,action&w=200&h=120&2" alt="Thumbnail 2" class="object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right animation-delay-200 h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,comedy&w=200&h=120&3" alt="Thumbnail 3" class="object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right animation-delay-300 h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,family&w=200&h=120&4" alt="Thumbnail 4" class="hidden object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right animation-delay-400 h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105 xl:block">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,romance&w=200&h=120&5" alt="Thumbnail 5" class="hidden object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right animation-delay-500 h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105 xl:block">
+                         <img src="https://source.unsplash.com/featured/?movie,poster,thriller&w=200&h=120&6" alt="Thumbnail 6" class="hidden object-cover w-24 transition-all duration-300 transform border-2 border-transparent rounded-md cursor-pointer animate-fade-in-right animation-delay-600 h-14 hover:border-white opacity-60 hover:opacity-100 hover:scale-105 2xl:block">
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="container relative px-4 py-12 mx-auto sm:px-6 lg:px-8 category-grid-container">
+            <h2 class="mb-6 text-2xl font-semibold animate-fade-in-up">Bạn đang quan tâm gì?</h2>
+
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:gap-5">
+
+                <!-- Category Cards with Animation Delay -->
+                <a href="#" data-category="Marvel" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-rose-500 via-red-500 to-red-600 animate-fade-in-up">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Marvel</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                 <a href="#" data-category="Phù Thủy" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-500 animate-fade-in-up animation-delay-200">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Phù Thủy</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                 <a href="#" data-category="Sitcom" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-teal-500 to-cyan-500 animate-fade-in-up animation-delay-300">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Sitcom</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                 <a href="#" data-category="Lồng Tiếng" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-indigo-500 to-blue-600 animate-fade-in-up animation-delay-400">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Lồng Tiếng Cực Mạnh</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                 <a href="#" data-category="Xuyên Không" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 animate-fade-in-up animation-delay-500">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Xuyên Không</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                 <a href="#" data-category="Phim 9x" class="block overflow-hidden transition duration-300 ease-in-out transform rounded-lg shadow-lg category-card group hover:scale-105 hover:shadow-xl bg-gradient-to-br from-yellow-400 via-yellow-400 to-orange-400 animate-fade-in-up animation-delay-600">
+                    <div class="flex flex-col justify-between h-32 p-5">
+                        <h3 class="text-xl font-bold text-white drop-shadow-md">Phim 9x</h3>
+                        <span class="text-sm text-white transition-opacity opacity-70 group-hover:opacity-100">Xem chủ đề ></span>
+                    </div>
+                </a>
+
+                <!-- More Topics Button -->
+                 <button id="more-topics-button" class="h-32 transition duration-300 ease-in-out transform bg-gray-800 rounded-lg shadow-lg more-topics-btn group hover:scale-105 hover:shadow-xl hover:bg-gray-700 animate-fade-in-up animation-delay-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50">
+                    <span class="text-lg font-semibold text-gray-400 transition-colors group-hover:text-white">+3 chủ đề</span>
+                </button>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Optional) -->
+    <footer class="py-8 text-sm text-center text-gray-500">
+        © 2024 RoPhim Clone Demo. Hình ảnh từ Unsplash.
+    </footer>
+
+    <!-- Basic Interaction Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Button Click Handlers ---
+            const playButton = document.getElementById('play-button');
+            const likeButton = document.getElementById('like-button');
+            const infoButton = document.getElementById('info-button');
+            const moreTopicsButton = document.getElementById('more-topics-button');
+
+            if (playButton) {
+                playButton.addEventListener('click', () => {
+                    console.log('Play button clicked!');
+                    // Thêm hành động thực tế ở đây (ví dụ: mở video player)
+                    alert('Bắt đầu xem phim!'); // Ví dụ đơn giản
+                });
+            }
+
+            if (likeButton) {
+                likeButton.addEventListener('click', () => {
+                    console.log('Like button clicked!');
+                    // Thêm hành động (ví dụ: gửi yêu cầu like/unlike tới server)
+                    likeButton.classList.toggle('text-red-500'); // Toggle màu đỏ đơn giản
+                    likeButton.classList.toggle('bg-opacity-50');
+                    likeButton.classList.toggle('bg-opacity-80');
+
+                });
+            }
+
+            if (infoButton) {
+                infoButton.addEventListener('click', () => {
+                    console.log('Info button clicked!');
+                    // Thêm hành động (ví dụ: mở modal chi tiết phim)
+                    alert('Hiển thị thông tin chi tiết phim!'); // Ví dụ
+                });
+            }
+
+             if (moreTopicsButton) {
+                moreTopicsButton.addEventListener('click', () => {
+                    console.log('More Topics button clicked!');
+                    // Thêm hành động (ví dụ: tải thêm chủ đề)
+                    alert('Xem thêm các chủ đề khác!'); // Ví dụ
+                });
+            }
+
+            // --- Category Card Click Handlers ---
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    event.preventDefault(); // Ngăn chuyển trang mặc định của thẻ <a>
+                    const categoryName = card.dataset.category; // Lấy tên category từ data attribute
+                    console.log(`Category card clicked: ${categoryName}`);
+                    // Thêm hành động (ví dụ: điều hướng đến trang category)
+                     alert(`Điều hướng đến trang chủ đề: ${categoryName}`); // Ví dụ
+                });
+            });
+
+            // --- Thumbnail Click Handlers (Ví dụ) ---
+             const thumbnails = document.querySelectorAll('.hero-section img[alt^="Thumbnail"]');
+             thumbnails.forEach((thumb, index) => {
+                 thumb.addEventListener('click', () => {
+                     console.log(`Thumbnail ${index + 1} clicked!`);
+                     // Thêm hành động (ví dụ: hiển thị ảnh lớn hơn, hoặc seek video)
+                     alert(`Bạn đã click vào thumbnail ${index + 1}`);
+                 });
+             });
+
+        });
+    </script>
+</body>
+</html>
